@@ -1,0 +1,74 @@
+<div class="col-md-4 col-xs-12 item" >
+
+
+
+    <div class="well" ng-class="{'active': c.status}" data-channel="{{c.channelNo}}"
+         data-switch="{{c.switchNo}}">
+
+        <div class="existingPlaceholder" ng-show="!c.isEditing">
+            <h2 ng-mousedown="startTimer(alterState(c))"
+                ng-mouseup="stopTimer()">
+                {{c.name}}
+            </h2>
+            <p class="channelInfo hidden-sm" ng-click="c.isEditing = true">Channel {{c.channelNo}}, Switch {{c.switchNo}}</p>
+        </div>
+
+        <div class="" ng-show="c.isEditing">
+
+            <form ng-submit="addNewItem()">
+                <fieldset>
+                    <legend>Add New Socket</legend>
+                    <div class="form-group is-empty">
+                        <label for="inputEmail" class="col-md-2 control-label">Name</label>
+
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" placeholder="Name" ng-model="newForm.name">
+                        </div>
+                        <span class="material-input"></span>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label for="select111" class="col-md-2 control-label">Channel</label>
+
+                        <div class="col-md-10">
+                            <select class="form-control" ng-model="newForm.channelNo">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                            </select>
+                        </div>
+                        <span class="material-input"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="select111" class="col-md-2 control-label">Switch</label>
+
+                        <div class="col-md-10">
+                            <select class="form-control" ng-model="newForm.switchNo">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                            </select>
+                        </div>
+                        <span class="material-input"></span>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="col-md-10 col-md-offset-2">
+                            <button type="button" class="btn btn-default" ng-click="clearForm()">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+
+
+    </div>
+
+</div>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="lightingApp" ng-controller="lightingCtrl">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bootstrap-material-design/dist/css/bootstrap-material-design.css">
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <link rel="stylesheet" href="stylesheets/checkbox.css">
+    <meta name="theme-color" content="{{color}}">
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport'/>
+    <script src="angular/angular.js"></script>
+    <script src="js/Item-compiled.js"></script>
+    <script src="js/controller.js"></script>
+</head>
+<body >
+
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">{{greeting}}<div class="ripple-container"></div></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+        </div>
+    </div>
+</nav>
+
+
+<div class="container" style="margin-top:80px;">
+
+
+    <div class="inner-container">
+
+
+        <div class="row">
+            <div class="col-xs-12">
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-model="activeOnly"><span class="checkbox-material"><span class="check"></span></span> Show On only
+                            </label>
+                        </div>
+                    </div>
+            </div>
+        </div>
+
+
+        <div  class="row">
+
+
+            <card ng-repeat="(i,c) in collection | filter:filter"></card>
+
+            <div class="col-md-4 col-xs-12 item">
+
+
+                <div class="well">
+                    <div class="newPlaceholder" ng-show="!showNewForm" ng-click="showNewForm = true">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true" style="font-size:50px;"></span>
+                    </div>
+
+                    <div class="" ng-show="showNewForm">
+
+                        <form ng-submit="addNewItem()">
+                        <fieldset>
+                            <legend>Add New Socket</legend>
+                            <div class="form-group is-empty">
+                                <label for="inputEmail" class="col-md-2 control-label">Name</label>
+
+                                <div class="col-md-10">
+                                    <input type="text" class="form-control" placeholder="Name" ng-model="newForm.name">
+                                </div>
+                                <span class="material-input"></span>
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <label for="select111" class="col-md-2 control-label">Channel</label>
+
+                                <div class="col-md-10">
+                                    <select id="select111" class="form-control" ng-model="newForm.channelNo">
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                    </select>
+                                </div>
+                                <span class="material-input"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="select111" class="col-md-2 control-label">Switch</label>
+
+                                <div class="col-md-10">
+                                    <select id="select111" class="form-control" ng-model="newForm.switchNo">
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                    </select>
+                                </div>
+                                <span class="material-input"></span>
+                            </div>
+
+
+                            <div class="form-group">
+                                <div class="col-md-10 col-md-offset-2">
+                                    <button type="button" class="btn btn-default" ng-click="clearForm()">Cancel</button>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+            <h2 class="center-block text-center"
+                ng-show="(collection | filter:filter).length ==0">Nothing to show
+            </h2>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
