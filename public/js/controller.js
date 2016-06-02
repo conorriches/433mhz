@@ -51,6 +51,8 @@ myApp.controller('lightingCtrl', ['$scope','$http', '$timeout', function($scope,
             }
         );
 
+        $scope.chromeTabColour();
+
 
     };
 
