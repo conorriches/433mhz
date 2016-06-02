@@ -17,6 +17,15 @@ router.post('/api/item/new', function(req, res, next) {
 
 });
 
+router.post('/api/item/update', function(req, res, next) {
+
+    api.updateItem(req,res,function(response){
+        res.send(response)
+    });
+
+});
+
+
 router.post('/api/item/delete', function(req, res, next) {
 
     api.deleteItem(req,res,function(response){

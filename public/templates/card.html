@@ -16,18 +16,23 @@
 
 
         <div class="existingPlaceholder" ng-show="!c.isEditing && c._id">
-            <h2 ng-mousedown="startTimer(alterState(c))"
+            <h2 ng-mousedown="(alterState(c))"
                 ng-mouseup="stopTimer()">
                 {{c.name}}
             </h2>
-            <p class="channelInfo hidden-sm" ng-click="c.isEditing = true">Channel {{c.channelNo}}, Switch {{c.switchNo}}</p>
+
+            <div class="channelInfo" ng-click="c.isEditing = true">
+                <span class="glyphicon glyphicon-pencil pull-right "></span>
+                <p class="hidden-sm pull-right" style="margin-right:10px;" >C{{c.channelNo}}/ S{{c.switchNo}}</p>
+            </div>
+
         </div>
 
         <div class="" ng-show="c.isEditing">
 
-            <form ng-submit="addNewItem(c)">
+            <form ng-submit="saveItem(c)">
                 <fieldset>
-                    <legend>{{c._id?"Edit Details":"Add New Socket"}}</legend>
+                    <legend>{{c._id?"Edit Socket Details":"Add New Socket"}}</legend>
                     <div class="form-group is-empty">
                         <label for="inputEmail" class="col-md-2 control-label">Name</label>
 
@@ -70,7 +75,7 @@
 
                     <div class="form-group">
                         <div class="col-md-10 col-md-offset-2">
-                            <button type="button" class="btn btn-default" ng-click="clearForm(c)" ng-show="!c._id">Cancel</button>
+                            <button type="button" class="btn btn-default" ng-click="c = {}" ng-show="!c._id">Cancel</button>
                             <button type="button" class="btn btn-danger" ng-click="deleteItem(c)" ng-show="c._id">Delete</button>
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </div>

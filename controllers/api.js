@@ -72,6 +72,27 @@ exports.newItem = function(req, res, callback) {
 };
 
 
+exports.updateItem = function(req, res, callback) {
+
+    var obj = req.body.obj;
+
+    Item.update(
+        {
+            _id:obj._id
+        },
+        {
+            name: obj.name,
+            channelNo: obj.channelNo,
+            switchNo: obj.switchNo
+        },
+        { upsert: true },function(err,count,status){
+            callback(status);
+        }
+    );
+
+};
+
+
 exports.deleteItem = function(req, res, callback) {
 
     Item.remove({_id:req.body.id},function (err, item) {

@@ -23,6 +23,7 @@ myApp.controller('lightingCtrl', ['$scope','$http', '$timeout', function($scope,
         }).then(function successCallback(response) {
             console.info(response.data);
             $scope.collection = response.data;
+            $scope.chromeTabColour();
         });
 
     };
@@ -51,7 +52,7 @@ myApp.controller('lightingCtrl', ['$scope','$http', '$timeout', function($scope,
             }
         );
 
-        $scope.chromeTabColour();
+
 
 
     };
@@ -84,10 +85,11 @@ myApp.controller('lightingCtrl', ['$scope','$http', '$timeout', function($scope,
         return true;
     };
 
-    $scope.clearForm=function(obj){
-        obj = {};
-    };
 
+    /**
+     * Deletes the given item
+     * @param obj
+     */
     $scope.deleteItem = function(obj){
 
         var conf = confirm("Really delete `" + obj.name + "`?");
@@ -110,14 +112,24 @@ myApp.controller('lightingCtrl', ['$scope','$http', '$timeout', function($scope,
         }
     };
 
+    /**
+     * Inserts a new item, or updates existing one
+     * @param obj
+     */
 
-    $scope.addNewItem = function(obj){
+    $scope.saveItem = function(obj){
+
+        var url;
+        if(obj._id){
+            url = "/api/item/update/"; //got an ID, so update instead
+        }else{
+            url = "/api/item/new/"; //No ID, so save afresh
+        }
+
         $http.post(
-            "/api/item/new/",
+            url,
             {
-                "name": obj.name,
-                "channelNo": obj.channelNo,
-                "switchNo": obj.switchNo
+                "obj": obj
             }
         ).then(
             function(response){
@@ -131,22 +143,6 @@ myApp.controller('lightingCtrl', ['$scope','$http', '$timeout', function($scope,
         );
 
     };
-
-
-    $scope.holdTimer = false;
-    $scope.startTimer = function(callback){
-        $scope.stopTimer();
-        $scope.holdTimer = $timeout(function(){callback;},50000);
-    };
-    $scope.stopTimer = function(){
-        $timeout.cancel($scope.holdTimer);
-    };
-    $scope.longPress = function(obj){
-
-    };
-
-
-
 
 }]);
 
