@@ -9,13 +9,22 @@ router.get('/', function(req, res, next) {
 });
 
 
-router.post('/api/new', function(req, res, next) {
+router.post('/api/item/new', function(req, res, next) {
 
     api.newItem(req,res,function(response){
         res.send(response)
     });
 
 });
+
+router.post('/api/item/delete', function(req, res, next) {
+
+    api.deleteItem(req,res,function(response){
+        res.send(response)
+    });
+
+});
+
 
 router.post('/api/switch/:channelNo/:switchNo', function(req, res, next) {
 

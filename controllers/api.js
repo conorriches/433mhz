@@ -69,4 +69,20 @@ exports.newItem = function(req, res, callback) {
         }
     });
 
-}
+};
+
+
+exports.deleteItem = function(req, res, callback) {
+
+    Item.remove({_id:req.body.id},function (err, item) {
+        if (err) {
+            callback({status:0});
+        } else {
+            callback({
+                status:1
+            });
+        }
+    });
+
+};
+

@@ -7,7 +7,6 @@ myApp.controller('lightingCtrl', ['$scope','$http', '$timeout', function($scope,
     $scope.greeting = 'Hola!';
     $scope.activeOnly = false;
     $scope.color="#388E3C";
-    $scope.showNewForm = false;
     $scope.newForm = {};
     $scope.collection = [];
 
@@ -32,7 +31,7 @@ myApp.controller('lightingCtrl', ['$scope','$http', '$timeout', function($scope,
 
     $scope.alterState = function(item){
 
-        var str = item.channelNo + "" + item.switchNo + (item.status?'1':'0');
+        var str = item.channelNo + "" + item.switchNo + (item.status?'0':'1');
         $http.jsonp("http://lighting.416.home", {
             params: { "s": str }
         });
@@ -78,19 +77,40 @@ myApp.controller('lightingCtrl', ['$scope','$http', '$timeout', function($scope,
         return true;
     };
 
-    $scope.clearForm=function(){
-        $scope.newForm = {};
-        $scope.showNewForm = false;
+    $scope.clearForm=function(obj){
+        obj = {};
+    };
+
+    $scope.deleteItem = function(obj){
+
+        var conf = confirm("Really delete `" + obj.name + "`?");
+
+        if(conf) {
+            $http.post(
+                "/api/item/delete/",
+                {
+                    "id": obj._id
+                }
+            ).then(
+                function (response) {
+                    $scope.updateModel();
+                },
+                function (response) {
+                    // failure callback
+                    $scope.updateModel();
+                }
+            );
+        }
     };
 
 
-    $scope.addNewItem = function(){
+    $scope.addNewItem = function(obj){
         $http.post(
-            "/api/new/",
+            "/api/item/new/",
             {
-                "name": $scope.newForm.name,
-                "channelNo": $scope.newForm.channelNo,
-                "switchNo": $scope.newForm.switchNo
+                "name": obj.name,
+                "channelNo": obj.channelNo,
+                "switchNo": obj.switchNo
             }
         ).then(
             function(response){
