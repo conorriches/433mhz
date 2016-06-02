@@ -52,8 +52,14 @@ myApp.controller('lightingCtrl', ['$scope','$http', '$timeout', function($scope,
         );
 
 
+    };
 
-        //todo: move to own method
+
+    /**
+     * On mobile Chrome, it's possible to change the tab colour.
+     * This changes it green if all is off, red otherwise.
+     */
+    $scope.chromeTabColour = function(){
         var allOff = true;
         $scope.collection.forEach(function(e){
             if(e.status)allOff=false;
@@ -63,7 +69,6 @@ myApp.controller('lightingCtrl', ['$scope','$http', '$timeout', function($scope,
         }else{
             $scope.color="#d32f2f";
         }
-
 
     };
 
