@@ -20,13 +20,13 @@ Key things to note
 ##Setting up the Web App
 Please let me know if I've forgotten something here!
 In theory, you can 
--clone this project.
--run `npm install` - this installs the packages required, one off setup.
+- clone this project.
+- run `npm install` - this installs the packages required, one off setup.
 
 ##Running the app
 Each time you want to run it:
--run `mongod` - this starts the database. (leave running)
--run `node start`  - this starts the server. (leave running)
+- run `mongod` - this starts the database. (leave running)
+- run `node start`  - this starts the server. (leave running)
 
 TODO: I will look at making this simpler.
 
