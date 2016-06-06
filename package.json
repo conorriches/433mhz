@@ -16,6 +16,8 @@
     "jade": "~1.11.0",
     "mongoose": "^4.4.19",
     "morgan": "~1.6.1",
-    "serve-favicon": "~2.3.0"
+    "mysql": "felixge/node-mysql",
+    "serve-favicon": "~2.3.0",
+    "sqlite3": "https://github.com/mapbox/node-sqlite3/tarball/master"
   }
 }

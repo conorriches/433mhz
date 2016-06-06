@@ -54,12 +54,11 @@ router.get('/api/list', function(req, res, next) {
 
 
 
-router.post('/api/update/:channel/:switch/', function(req, res, next) {
+router.post('/api/update/:id/', function(req, res, next) {
+
     var channelNo = req.params.channel,
         switchNo = req.params.switch,
         name = req.body.name;
-
-    api.list();
    res.send({
        "channel":channelNo,
        "switch":switchNo,

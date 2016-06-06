@@ -1,7 +1,5 @@
-
-
-var Item = require('../models/Item.js');
-
+var sqlite3 = require('sqlite3').verbose();
+var db = new sqlite3.Database('db');
 
 
 /**
@@ -10,8 +8,8 @@ var Item = require('../models/Item.js');
  * @param res
  */
 exports.list = function(req, res) {
-    Item.find(function(err, items) {
-        res.send(items);
+    db.all("SELECT * FROM ITEMS", function(err, row) {
+        res.send(row)
     });
 };
 
@@ -23,20 +21,13 @@ exports.list = function(req, res) {
  * @param callback
  */
 exports.switch = function(req, res, callback){
+    var status = req.body.status?1:0;
 
-    var status = req.body.status?true:false;
-
-    //get the item
-    Item.update(
-        {
-            channelNo: req.params.channelNo,
-            switchNo: req.params.switchNo
-        },
-        {
-            status:status
-        },
-        { upsert: true },function(err,count,status){
-            callback(status);
+    db.run(
+        "UPDATE items SET status = ? WHERE channelNo = ? AND switchNo = ?",
+        [status, req.params.channelNo, req.params.switchNo],
+        function(){
+            callback({status:1});
         }
     );
 };
@@ -50,60 +41,53 @@ exports.switch = function(req, res, callback){
  */
 exports.newItem = function(req, res, callback) {
 
-    var newItem = new Item({
-        name: req.body.name,
-        channelNo:req.body.channelNo,
-        switchNo:req.body.switchNo,
-        type:false,
-        status:false
-    });
-
-    newItem.save(function (err, item) {
-        if (err) {
-            callback({status:0});
-        } else {
-            callback({
-                status:1,
-                data:item
-            });
-        }
-    });
-
-};
-
-
-exports.updateItem = function(req, res, callback) {
-
-    var obj = req.body.obj;
-
-    Item.update(
-        {
-            _id:obj._id
-        },
-        {
-            name: obj.name,
-            channelNo: obj.channelNo,
-            switchNo: obj.switchNo
-        },
-        { upsert: true },function(err,count,status){
-            callback(status);
+    db.run(
+        "INSERT INTO items (name, status, channelNo, switchNo) VALUES (?,?,?,?)",
+        [
+            req.body.obj.name,
+            0,
+            req.body.obj.channelNo,
+            req.body.obj.switchNo
+        ],
+        function(){
+            callback({status:1});
         }
     );
 
 };
 
 
+exports.updateItem = function(req, res, callback) {
+
+    db.run(
+        "UPDATE items SET name = ?, channelNo=?, switchNo = ? WHERE ID = ?",
+        [
+            req.body.obj.name,
+            req.body.obj.channelNo,
+            req.body.obj.switchNo,
+            req.body.obj.id
+        ],
+        function(){
+            callback({status:1});
+        }
+    );
+
+
+};
+
+
 exports.deleteItem = function(req, res, callback) {
 
-    Item.remove({_id:req.body.id},function (err, item) {
-        if (err) {
-            callback({status:0});
-        } else {
-            callback({
-                status:1
-            });
+    db.run(
+        "DELETE FROM items WHERE ID = ?",
+        [
+            req.body.obj.id
+        ],
+        function(){
+            callback({status:1});
         }
-    });
+    );
+
 
 };
 

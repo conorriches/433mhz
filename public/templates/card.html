@@ -9,13 +9,13 @@
 
         <div class="newPlaceholder"
              ng-click="c.isEditing = true"
-             ng-show="!c._id && !c.isEditing">
+             ng-show="!c.id && !c.isEditing">
             <span class="glyphicon glyphicon-plus" aria-hidden="true" style="font-size:50px;"></span>
         </div>
 
 
 
-        <div class="existingPlaceholder" ng-show="!c.isEditing && c._id">
+        <div class="existingPlaceholder" ng-show="!c.isEditing && c.id">
             <h2 ng-mousedown="(alterState(c))"
                 ng-mouseup="stopTimer()">
                 {{c.name}}
@@ -32,7 +32,7 @@
 
             <form ng-submit="saveItem(c)">
                 <fieldset>
-                    <legend>{{c._id?"Edit Socket Details":"Add New Socket"}}</legend>
+                    <legend>{{c.id?"Edit Socket Details":"Add New Socket"}}</legend>
                     <div class="form-group is-empty">
                         <label for="inputEmail" class="col-md-2 control-label">Name</label>
 
@@ -48,12 +48,7 @@
                         <label for="select111" class="col-md-2 control-label">Channel</label>
 
                         <div class="col-md-10">
-                            <select class="form-control" ng-model="c.channelNo">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                            </select>
+                            <input class="form-control" type="number" max="4" min="1" ng-model="c.channelNo"/>
                         </div>
                         <span class="material-input"></span>
                     </div>
@@ -62,12 +57,7 @@
                         <label for="select111" class="col-md-2 control-label">Switch</label>
 
                         <div class="col-md-10">
-                            <select class="form-control" ng-model="c.switchNo">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                            </select>
+                            <input class="form-control" type="number" max="4" min="1" ng-model="c.switchNo"/>
                         </div>
                         <span class="material-input"></span>
                     </div>
@@ -75,8 +65,8 @@
 
                     <div class="form-group">
                         <div class="col-md-10 col-md-offset-2">
-                            <button type="button" class="btn btn-default" ng-click="c = {}" ng-show="!c._id">Cancel</button>
-                            <button type="button" class="btn btn-danger" ng-click="deleteItem(c)" ng-show="c._id">Delete</button>
+                            <button type="button" class="btn btn-default" ng-click="c = {}" ng-show="!c.id">Cancel</button>
+                            <button type="button" class="btn btn-danger" ng-click="deleteItem(c)" ng-show="c.id">Delete</button>
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                     </div>

@@ -95,7 +95,7 @@ myApp.controller('lightingCtrl', ['$scope','$http', '$timeout', function($scope,
             $http.post(
                 "/api/item/delete/",
                 {
-                    "id": obj._id
+                    "obj": obj
                 }
             ).then(
                 function (response) {
@@ -116,12 +116,14 @@ myApp.controller('lightingCtrl', ['$scope','$http', '$timeout', function($scope,
 
     $scope.saveItem = function(obj){
 
+        console.log(obj);
         var url;
-        if(obj._id){
-            url = "/api/item/update/"; //got an ID, so update instead
+        if(obj.id){
+            url = "/api/item/update/" ; //got an ID, so update instead
         }else{
             url = "/api/item/new/"; //No ID, so save afresh
         }
+        console.log(obj);
 
         $http.post(
             url,
