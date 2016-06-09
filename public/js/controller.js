@@ -32,11 +32,6 @@ myApp.controller('lightingCtrl', ['$scope','$http', '$timeout', function($scope,
 
     $scope.alterState = function(item){
 
-        var str = item.channelNo + "" + item.switchNo + (item.status?'0':'1');
-        $http.jsonp("http://lighting.416.home", {
-            params: { "s": str }
-        });
-
         $http.post(
             "/api/switch/"+item.channelNo + "/" + item.switchNo,
             {

@@ -1,5 +1,9 @@
 var sqlite3 = require('sqlite3').verbose();
 var db = new sqlite3.Database('db');
+// or more concisely
+var sys = require('sys');
+var exec = require('child_process').exec;
+function puts(error, stdout, stderr) { sys.puts(stdout) }
 
 
 /**
@@ -27,6 +31,7 @@ exports.switch = function(req, res, callback){
         "UPDATE items SET status = ? WHERE channelNo = ? AND switchNo = ?",
         [status, req.params.channelNo, req.params.switchNo],
         function(){
+            exec("sudo send " + req.params.channelNo + " " + req.params.switchNo + " " + status, puts);
             callback({status:1});
         }
     );
