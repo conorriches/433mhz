@@ -1,9 +1,11 @@
 <div class="col-md-4 col-xs-12 item" >
 
     <div class="well"
-         ng-class="{'active': c.status}"
+         ng-class="{'active': c.status && !editingMode,'editing':editingMode}"
          data-channel="{{c.channelNo}}"
-         data-switch="{{c.switchNo}}">
+         data-switch="{{c.switchNo}}"
+         ng-click="(alterState(c))"
+            >
 
 
 
@@ -15,20 +17,13 @@
 
 
 
-        <div class="existingPlaceholder" ng-show="!c.isEditing && c.id">
-            <h2 ng-mousedown="(alterState(c))"
-                ng-mouseup="stopTimer()">
+        <div class="existingPlaceholder" ng-show="c.id && !(editingItem == c.id)">
+            <h2>
                 {{c.name}}
             </h2>
-
-            <div class="channelInfo" ng-click="c.isEditing = true">
-                <span class="glyphicon glyphicon-pencil pull-right "></span>
-                <p class="hidden-sm pull-right" style="margin-right:10px;" >C{{c.channelNo}}/ S{{c.switchNo}}</p>
-            </div>
-
         </div>
 
-        <div class="" ng-show="c.isEditing">
+        <div class="" ng-show="(editingItem == c.id) && editingMode">
 
             <form ng-submit="saveItem(c)">
                 <fieldset>

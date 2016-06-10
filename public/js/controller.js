@@ -9,6 +9,8 @@ myApp.controller('lightingCtrl', ['$scope','$http', '$timeout', function($scope,
     $scope.color="#388E3C";
     $scope.newForm = {};
     $scope.collection = [];
+    $scope.editingMode = false;
+    $scope.editingItem = -1;
 
 
     /**
@@ -17,6 +19,7 @@ myApp.controller('lightingCtrl', ['$scope','$http', '$timeout', function($scope,
      */
     $scope.updateModel = function(){
 
+        $scope.editingItem = -1;
         $http({
             method: 'GET',
             url: '/api/list'
@@ -29,23 +32,38 @@ myApp.controller('lightingCtrl', ['$scope','$http', '$timeout', function($scope,
     };
     $scope.updateModel();
 
+    $scope.editMode = function(){
+        $scope.editingItem = -1;
+        $scope.editingMode = !$scope.editingMode;
+    };
+
+
+    $scope.editActive = function(){
+        $scope.activeOnly = !$scope.activeOnly;
+    };
 
     $scope.alterState = function(item){
 
-        $http.post(
-            "/api/switch/"+item.channelNo + "/" + item.switchNo,
-            {
-                 "status": (!item.status)
-            }
-        ).then(
-            function(response){
-                $scope.updateModel();
-            },
-            function(response){
-                // failure callback
-                $scope.updateModel();
-            }
-        );
+        if($scope.editingMode){
+            $scope.editingItem = item.id;
+        }else{
+            $scope.efitingItem = -1;
+            $http.post(
+                "/api/switch/"+item.channelNo + "/" + item.switchNo,
+                {
+                    "status": (!item.status)
+                }
+            ).then(
+                function(response){
+                    $scope.updateModel();
+                },
+                function(response){
+                    // failure callback
+                    $scope.updateModel();
+                }
+            );
+        }
+
 
     };
 
@@ -69,12 +87,15 @@ myApp.controller('lightingCtrl', ['$scope','$http', '$timeout', function($scope,
 
     $scope.filter = function(item){
 
+        var show = true;
+
+
         if($scope.activeOnly){
-            return item.status;
+            show = item.status;
         }
 
 
-        return true;
+        return show;
     };
 
 
@@ -134,6 +155,7 @@ myApp.controller('lightingCtrl', ['$scope','$http', '$timeout', function($scope,
                 // failure callback
                 $scope.updateModel();
             }
+
         );
 
     };
