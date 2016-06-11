@@ -17,8 +17,7 @@ myApp.controller('lightingCtrl', ['$scope','$http', '$timeout', function($scope,
      * Initialise the app
      * Pull in data from the DB
      */
-    $scope.updateModel = function(){
-
+    $scope.init = function(){
         $scope.editingItem = -1;
         $http({
             method: 'GET',
@@ -28,40 +27,61 @@ myApp.controller('lightingCtrl', ['$scope','$http', '$timeout', function($scope,
             $scope.collection = response.data;
             $scope.chromeTabColour();
         });
+    };
+    $scope.init();
+
+
+
+    $scope.updateModel = function(){
+
+       //sockets here
 
     };
-    $scope.updateModel();
 
+    /**
+     * Toggles Editing Mode
+     */
     $scope.editMode = function(){
         $scope.editingItem = -1;
         $scope.editingMode = !$scope.editingMode;
     };
 
 
+    /**
+     * Toggles the active only state
+     */
     $scope.editActive = function(){
         $scope.activeOnly = !$scope.activeOnly;
     };
 
-    $scope.alterState = function(item){
+
+    /**
+     * Toggles an item on and off
+     * @param item the item to toggle
+     */
+    $scope.toggleItem = function(item){
 
         if($scope.editingMode){
             $scope.editingItem = item.id;
         }else{
             $scope.efitingItem = -1;
-            $http.post(
-                "/api/switch/"+item.channelNo + "/" + item.switchNo,
-                {
-                    "status": (!item.status)
-                }
-            ).then(
-                function(response){
-                    $scope.updateModel();
-                },
-                function(response){
-                    // failure callback
-                    $scope.updateModel();
-                }
-            );
+
+            //Loop through each item
+            for(var i=0; i< $scope.collection.length; i++){
+
+                //If this is the item the user wants, switch it's statuss
+                if($scope.collection[i].id == item.id) $scope.collection[i].status = !$scope.collection[i].status;
+
+                //Make the API request to turn the light
+                $http.post( "/api/switch/"+item.channelNo + "/" + item.switchNo,{"status": (!item.status)}).then(
+                    function(response){
+                        $scope.updateModel();
+                    }
+                );
+
+            }
+
+            $scope.updateModel();
         }
 
 
@@ -83,19 +103,6 @@ myApp.controller('lightingCtrl', ['$scope','$http', '$timeout', function($scope,
             $scope.color="#d32f2f";
         }
 
-    };
-
-    $scope.filter = function(item){
-
-        var show = true;
-
-
-        if($scope.activeOnly){
-            show = item.status;
-        }
-
-
-        return show;
     };
 
 

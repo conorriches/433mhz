@@ -35,6 +35,15 @@ router.post('/api/item/delete', function(req, res, next) {
 });
 
 
+
+router.post('/api/model', function(req, res, next) {
+
+    api.switch(req,res,function(response){
+        res.send(response)
+    });
+
+});
+
 router.post('/api/switch/:channelNo/:switchNo', function(req, res, next) {
 
     api.switch(req,res,function(response){

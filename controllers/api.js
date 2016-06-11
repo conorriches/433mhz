@@ -39,6 +39,27 @@ exports.switch = function(req, res, callback){
 
 
 /**
+ * Updates the DB with the model provided by the client.
+ * @param req
+ * @param res
+ * @param callback
+ */
+exports.updateModel = function(req,res,callback){
+
+
+    db.run(
+        "UPDATE items SET status = ? WHERE channelNo = ? AND switchNo = ?",
+        [status, req.params.channelNo, req.params.switchNo],
+        function(){
+            exec("sudo send " + req.params.channelNo + " " + req.params.switchNo + " " + status, puts);
+            callback({status:1});
+        }
+    );
+
+};
+
+
+/**
  * POST NEW
  * @param req
  * @param res
