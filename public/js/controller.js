@@ -61,6 +61,7 @@ myApp.controller('lightingCtrl', ['$scope','$http', '$timeout', function($scope,
      */
     $scope.toggleItem = function(item){
 
+        console.log("TOGGLE");
         if($scope.editingMode){
             $scope.editingItem = item.id;
         }else{
@@ -72,14 +73,16 @@ myApp.controller('lightingCtrl', ['$scope','$http', '$timeout', function($scope,
                 //If this is the item the user wants, switch it's statuss
                 if($scope.collection[i].id == item.id) $scope.collection[i].status = !$scope.collection[i].status;
 
-                //Make the API request to turn the light
-                $http.post( "/api/switch/"+item.channelNo + "/" + item.switchNo,{"status": (!item.status)}).then(
-                    function(response){
-                        $scope.updateModel();
-                    }
-                );
 
             }
+
+            //Make the API request to turn the light
+            $http.post( "/api/switch/"+item.channelNo + "/" + item.switchNo,{"status": (item.status)}).then(
+                function(response){
+                    $scope.updateModel();
+                }
+            );
+
 
             $scope.updateModel();
         }
